@@ -19,7 +19,7 @@ class IbsShopDetailComponent extends CBitrixComponent
         }
     }
 
-    private function getData($id)
+    private function getData($id): array
     {   
         $laptop = LaptopTable::getByPrimary($id, [
             'select' => [ '*', 'OPTIONS', 'MODEL', 'MODEL.BRAND']
@@ -37,7 +37,7 @@ class IbsShopDetailComponent extends CBitrixComponent
         return $arReturn;
 
     }
-    public function executeComponent()
+    public function executeComponent(): void
     {
         $this->_checkModules();
         $this->arResult['DATA'] = $this->getData($this->arParams['ID']);

@@ -11,7 +11,7 @@ use Bitrix\Main\{
 class IbsShopComponent extends CBitrixComponent
 {
     public $moduleId = "rozhkov.ibs";
-    public function executeComponent()
+    public function executeComponent(): void
     {
         $this->_checkRights();
         if ($this->arParams["SEF_MODE"] === "Y") {
@@ -31,7 +31,7 @@ class IbsShopComponent extends CBitrixComponent
         }
         $this->IncludeComponentTemplate($componentPage);
     }
-    protected function sefMode()
+    protected function sefMode(): string
     {
         $arComponentVariables = [
             'sort'
@@ -79,7 +79,7 @@ class IbsShopComponent extends CBitrixComponent
     /**
      * Просто чтобы был. Работать не в режиме ЧПУ - компонент не будет, из за генерации ссылок
      */
-    protected function noSefMode()
+    protected function noSefMode(): string
     {
         $arDefaultVariableAliases = [
             'ELEMENT_COUNT' => 'count',
