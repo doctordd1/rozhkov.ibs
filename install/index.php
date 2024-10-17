@@ -1,9 +1,11 @@
 <?
-use Bitrix\Main\Localization\Loc;
-use Bitrix\Main\Entity\Base;
-use Bitrix\Main\Loader;
-use Bitrix\Main\Application;
-use Bitrix\Main\ModuleManager;
+use Bitrix\Main\{
+	Localization\Loc,
+	Entity\Base,
+	Loader,
+	Application,
+	ModuleManager
+};
 
 Loc::loadMessages(__FILE__);
 
@@ -15,7 +17,7 @@ class rozhkov_ibs extends CModule
 	public $PARTNER_NAME = "rozhkov";
 	public $PARTNER_URI = "";
 
-	function __construct()
+	public function __construct()
 	{
 		$version = include __DIR__ . '/version.php';
 		$this->MODULE_VERSION = $version['VERSION'];
@@ -25,7 +27,7 @@ class rozhkov_ibs extends CModule
 		$this->documentRoot = Application::getDocumentRoot();
 	}
 
-	function installDB()
+	private function installDB()
 	{
 		Loader::includeModule($this->MODULE_ID);
 		Base::getInstance('\rozhkov\ibs\model\BrandTable')->createDbTable();
@@ -35,7 +37,7 @@ class rozhkov_ibs extends CModule
 		Base::getInstance('\rozhkov\ibs\model\LaptopTable')->createDbTable();
 	}
 
-	function unInstallDB()
+	private function unInstallDB()
 	{
 		Loader::includeModule($this->MODULE_ID);
 		$connection = Application::getConnection();
@@ -46,20 +48,20 @@ class rozhkov_ibs extends CModule
 		$connection->queryExecute('DROP TABLE IF EXISTS ' . Base::getInstance('\rozhkov\ibs\model\LaptopTable')->getDBTableName());
 	}
 
-	function installFiles()
+	private function installFiles()
 	{
         CopyDirFiles($this->documentRoot."/local/modules/$this->MODULE_ID/install/components",
             $this->documentRoot."/local/components", true, true);
 		return true;
 	}
 
-	function unInstallFiles()
+	private function unInstallFiles()
 	{
 		\Bitrix\Main\IO\Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/ibs/');
 		return true;
 	}
 
-	function addTestData(){
+	private function addTestData(){
 		$brands = ['ASUS','ACER', 'Apple'];
 		$model = 'Модель';
 		$laptop = 'Ноутбук';
@@ -87,7 +89,7 @@ class rozhkov_ibs extends CModule
 		}
  	}
 
-	function DoInstall()
+	private function DoInstall()
 	{
 		global $APPLICATION;
 		$context = Application::getInstance()->getContext();
@@ -109,7 +111,7 @@ class rozhkov_ibs extends CModule
 		}
 	}
 
-	function DoUninstall()
+	private function DoUninstall()
 	{
 		global $APPLICATION;
 		$context = Application::getInstance()->getContext();
@@ -117,7 +119,7 @@ class rozhkov_ibs extends CModule
 		
 		if($request['step'] < 2) {
             $APPLICATION->IncludeAdminFile(GetMessage("ROZHKOV_IBS_MODULE_UNINSTALL_TITLE"),
-                $this->documentRoot."/local/modules/$this->MODULE_ID/install/unstep1.php");
+                $this->documentRoot . "/local/modules/$this->MODULE_ID/install/unstep1.php");
 
         } elseif($request['step'] == 2) {
 			$this->unInstallFiles();
@@ -127,7 +129,7 @@ class rozhkov_ibs extends CModule
             \Bitrix\Main\ModuleManager::unRegisterModule($this->MODULE_ID);
 
             $APPLICATION->IncludeAdminFile(GetMessage("ROZHKOV_IBS_MODULE_UNINSTALL_TITLE"),
-                $this->documentRoot."/local/modules/$this->MODULE_ID/install/unstep2.php");
+                $this->documentRoot . "/local/modules/$this->MODULE_ID/install/unstep2.php");
         }
 		$this->unInstallDB();
 		ModuleManager::unRegisterModule($this->MODULE_ID);

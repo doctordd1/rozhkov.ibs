@@ -47,7 +47,7 @@ class IbsShopListComponent extends CBitrixComponent
         $this->gridId = "shop_list_" . $this->arParams['ENTITY'];
     }
 
-    function getData($typeEntity, $filter = [])
+    private function getData($typeEntity, $filter = [])
     {   
         $arParams = [
             'order' => $this->arResult['OPTIONS']['sort'], 
@@ -78,7 +78,7 @@ class IbsShopListComponent extends CBitrixComponent
         }
         return $arReturn;
     }
-    function getColumns($typeEntity){
+    private function getColumns($typeEntity){
         if ($typeEntity == "brand" || $typeEntity == "model") {
             return [
                 ['id' => 'NAME', 'name' => Loc::getMessage('IBS_GRID_NAME'), 'default' => true, 'sort' => false]
