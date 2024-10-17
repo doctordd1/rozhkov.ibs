@@ -7,7 +7,6 @@ use Bitrix\Main\{
     Entity\StringField,
     Entity\FloatField,
     Entity\DataManager,
-    Type,
 };
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 
@@ -18,34 +17,34 @@ class LaptopTable extends DataManager
     }
 
     public static function getMap() {
-        return Array(
+        return [
             new IntegerField(
                 "ID",
-                Array(
+                [
                     "primary" => true,
                     "autocomplete" => true,
-                )
+                ]
             ),
             new StringField(
                 "NAME",
-                Array(
+                [
                     "required" => true
-                )
+                ]
             ),
             new IntegerField("MODEL_ID"),
-            new FloatField('PRICE', array(
+            new FloatField('PRICE', [
                 'required' => true,
-            )),
-            new IntegerField('YEAR', array(
+            ]),
+            new IntegerField('YEAR', [
                 'required' => true,
-            )),
+            ]),
             new ReferenceField(
                 "MODEL", 
-                'Rozhkov\Ibs\Model\ModelTable', 
-                Array("=this.MODEL_ID" => "ref.ID") 
+                ModelTable::class, 
+                ["=this.MODEL_ID" => "ref.ID"]
             ),
             (new ManyToMany('OPTIONS', OptionTable::class))
 				->configureTableName('r_laptop_option')
-        );
+        ];
     }
 }

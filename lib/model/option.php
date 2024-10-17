@@ -5,7 +5,6 @@ use Bitrix\Main\{
     Entity\IntegerField,
     Entity\StringField,
     Entity\DataManager,
-    Type
 };
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 
@@ -16,22 +15,22 @@ class OptionTable extends DataManager
     }
 
     public static function getMap() {
-        return Array(
+        return [
             new IntegerField(
                 "ID",
-                Array(
+                [
                     "primary" => true,
                     "autocomplete" => true,
-                )
+                ]
             ),
             new StringField(
                 "NAME",
-                Array(
+                [
                     "required" => true
-                )
+                ]
             ),
             (new ManyToMany('LAPTOPS', LaptopTable::class))
             ->configureTableName('r_laptop_option')
-        );
+        ];
     }
 }

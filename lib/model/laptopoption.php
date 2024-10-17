@@ -5,7 +5,6 @@ use Bitrix\Main\{
     Entity\IntegerField,
     Entity\ReferenceField,
     Entity\DataManager,
-    Type
 };
 
 class LaptopOptionTable extends DataManager
@@ -15,7 +14,7 @@ class LaptopOptionTable extends DataManager
     }
 
     public static function getMap() {
-        return Array(
+        return [
             (new IntegerField('OPTION_ID'))
             ->configurePrimary(true),
             (new ReferenceField('OPTION', OptionTable::class,
@@ -26,6 +25,6 @@ class LaptopOptionTable extends DataManager
             (new ReferenceField('LAPTOP', LaptopTable::class,
                 ['this.LAPTOP_ID' => 'ref.ID']))
                 ->configureJoinType('inner'),
-        );
+        ];
     }
 }
