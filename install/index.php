@@ -27,7 +27,7 @@ class rozhkov_ibs extends CModule
 		$this->documentRoot = Application::getDocumentRoot();
 	}
 
-	private function installDB()
+	public function installDB()
 	{
 		Loader::includeModule($this->MODULE_ID);
 		Base::getInstance('\rozhkov\ibs\model\BrandTable')->createDbTable();
@@ -37,7 +37,7 @@ class rozhkov_ibs extends CModule
 		Base::getInstance('\rozhkov\ibs\model\LaptopTable')->createDbTable();
 	}
 
-	private function unInstallDB()
+	public function unInstallDB()
 	{
 		Loader::includeModule($this->MODULE_ID);
 		$connection = Application::getConnection();
@@ -48,20 +48,20 @@ class rozhkov_ibs extends CModule
 		$connection->queryExecute('DROP TABLE IF EXISTS ' . Base::getInstance('\rozhkov\ibs\model\LaptopTable')->getDBTableName());
 	}
 
-	private function installFiles()
+	public function installFiles()
 	{
         CopyDirFiles($this->documentRoot."/local/modules/$this->MODULE_ID/install/components",
             $this->documentRoot."/local/components", true, true);
 		return true;
 	}
 
-	private function unInstallFiles()
+	public function unInstallFiles()
 	{
 		\Bitrix\Main\IO\Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/ibs/');
 		return true;
 	}
 
-	private function addTestData(){
+	public function addTestData(){
 		$brands = ['ASUS','ACER', 'Apple'];
 		$model = 'Модель';
 		$laptop = 'Ноутбук';
@@ -89,7 +89,7 @@ class rozhkov_ibs extends CModule
 		}
  	}
 
-	private function DoInstall()
+	 public function DoInstall()
 	{
 		global $APPLICATION;
 		$context = Application::getInstance()->getContext();
@@ -111,7 +111,7 @@ class rozhkov_ibs extends CModule
 		}
 	}
 
-	private function DoUninstall()
+	public function DoUninstall()
 	{
 		global $APPLICATION;
 		$context = Application::getInstance()->getContext();
